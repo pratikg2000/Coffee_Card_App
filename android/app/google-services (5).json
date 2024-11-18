@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "505702367411",
+    "project_id": "sasaddsd-98108",
+    "storage_bucket": "sasaddsd-98108.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505702367411:android:4c201765ac9c6a955770c6",
+        "android_client_info": {
+          "package_name": "com.pratik"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG1RVd7yaBMEU-i9ni0s-gCVQZ2zIA9C8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
