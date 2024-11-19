@@ -70,7 +70,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
         <Text style={styles.CardPriceCurrency}>
           $ <Text style={styles.CardPrice}>{price.price}</Text>
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {}}>
           <BGIcon
             color={COLORS.primaryWhiteHex}
             name={'add'}
@@ -126,9 +126,20 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_light,
     color: COLORS.primaryWhiteHex,
     fontSize: FONTSIZE.size_10,
-    lineHeight: 22,
   },
-  CardPriceCurrency: {},
-  CardPrice: {},
-  CardFooterRow: {},
+
+  CardFooterRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: SPACING.space_15,
+  },
+  CardPriceCurrency: {
+    fontFamily: FONTFAMILY.poppins_semibold,
+    color: COLORS.primaryOrangeHex,
+    fontSize: FONTSIZE.size_18,
+  },
+  CardPrice: {
+    color: COLORS.primaryWhiteHex,
+  },
 });
