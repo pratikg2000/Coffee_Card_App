@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import TabNavigator from './src/navigators/TabNavigator';
-import DeatilsScreen from './src/screen/DeatilsScreen';
+import DeatilsScreen from './src/screen/DetailsScreen';
 import PaymentsScreen from './src/screen/PaymentsScreen';
 
 const Stack = createNativeStackNavigator();
@@ -18,7 +18,7 @@ const App = () => {
         />
 
         <Stack.Screen
-          name="Deatils"
+          name="Details"
           component={DeatilsScreen}
           options={{animation: 'slide_from_bottom'}}
         />

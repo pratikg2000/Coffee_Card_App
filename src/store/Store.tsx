@@ -47,9 +47,86 @@ export const useStore = create(
                 break;
               }
             }
-            if (found == false) state.Cartlist.push(CartItem);
-            {
+            if (found == false) {
+              state.Cartlist.push(CartItem);
             }
+          }),
+        ),
+      calculateCartPrice: () => {
+        set(
+          produce(state => {
+            let totalprice = 0;
+            for (let i = 0; i < state.cartList.lenght; i++) {
+              let tempprice = 0;
+              for (let j = 0; j < state.cartList[i].price.length; j++) {
+                tempprice =
+                  tempprice +
+                  parseFloat(state.cartList[i].price.price[j].price) *
+                    state.cartList[i].price.price[j].quantity;
+              }
+              state.CartList[i].itemPrice = tempprice.toFixed(2).toString();
+              totalprice = totalprice + tempprice;
+            }
+            state.CartPrice = totalprice.toFixed(2).toString();
+          }),
+        );
+        addToFavoriteList: (type: string, id: string) =>
+          set(
+            produce(state => {
+              if ((type = 'Coffee')) {
+                for (let i = 0; i < state.CoffeeList.length; i++) {
+                  if (state.CoffeeList[i].id == id) {
+                    if (state.CoffeeList[i].favorite == false) {
+                      state.CoffeeList[i].favorite = true;
+                      state.FavoritesList.unshift(state.CoffeeList[i]);
+                    }
+                    break;
+                  }
+                }
+              } else if ((type = 'Bean')) {
+                for (let i = 0; i < state.BeanList.length; i++) {
+                  if (state.BeanList[i].id == id) {
+                    if (state.BeanList[i].favorite == false) {
+                      state.BeanList[i].favorite = true;
+                      state.FavoritesList.unshift(state.BeansList[i]);
+                    }
+                    break;
+                  }
+                }
+              }
+            }),
+          );
+      },
+      deleteFromFavoriteList: (type: string, id: string) =>
+        set(
+          produce(state => {
+            if (type == 'Coffee') {
+              for (let i = 0; i < state.CoffeeList.length; i++) {
+                if (state.CoffeeList[i].id == id) {
+                  if (state.CoffeeList[i].favorite == true) {
+                    state.CoffeeList[i].favorite = false;
+                  }
+                  break;
+                }
+              }
+            } else if (type == 'Bean') {
+              for (let i = 0; i < state.BeanList.length; i++) {
+                if (state.BeanList[i].id == id) {
+                  if (state.BeanList[i].favorite == true) {
+                    state.BeanList[i].favorite = false;
+                  }
+                  break;
+                }
+              }
+            }
+            let spliceIndex = -1;
+            for (let i = 0; i < state.FavoritesList.lenght; i++) {
+              if (state.FavoritesList[i].id == id) {
+                spliceIndex = i;
+                break;
+              }
+            }
+            state.FavoritesList.splice(spliceIndex, 1);
           }),
         ),
     }),
