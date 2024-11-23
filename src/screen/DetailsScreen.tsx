@@ -24,6 +24,8 @@ const DetailsScreen = ({navigation, route}: any) => {
   )[route.params.index];
 
   const addToFavoriteList = useStore((state: any) => state.addToFavoriteList);
+  const addToCart = useStore((state: any) => state.addToCart);
+  const calculateCartPrice = useStore((state: any) => state.calculateCartPrice);
   const deleteFromFavoriteList = useStore(
     (state: any) => state.deleteFromFavoriteList,
   );
@@ -37,6 +39,30 @@ const DetailsScreen = ({navigation, route}: any) => {
 
   const ToggleFavourite = (favourite: boolean, type: string, id: string) => {
     favourite ? deleteFromFavoriteList(type, id) : addToFavoriteList(type, id);
+  };
+
+  const addToCarthandle = ({
+    id,
+    index,
+    name,
+    roasted,
+    imagelink_square,
+    special_ingredient,
+    type,
+    price,
+  }: any) => {
+    addToCart({
+      id,
+      index,
+      name,
+      roasted,
+      imagelink_square,
+      special_ingredient,
+      type,
+      prices: [{...price, quantity: 1}],
+    });
+    calculateCartPrice();
+    navigation.navigate('Cart');
   };
 
   return (
@@ -122,7 +148,18 @@ const DetailsScreen = ({navigation, route}: any) => {
         <PaymentFooter
           price={price}
           buttonTitle="Add To Cart"
-          buttonPressHandler={() => {}}
+          buttonPressHandler={() => {
+            addToCarthandle({
+              id: ItemOfIndex.id,
+              index: ItemOfIndex.index,
+              name: ItemOfIndex.name,
+              roasted: ItemOfIndex.roasted,
+              imagelink_square: ItemOfIndex.imagelink_square,
+              special_ingredient: ItemOfIndex.special_ingredient,
+              type: ItemOfIndex.type,
+              price: ItemOfIndex.price,
+            });
+          }}
         />
       </ScrollView>
     </View>
