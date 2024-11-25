@@ -185,6 +185,7 @@ export const useStore = create(
                 accumulator + parseFloat(currentValue.ItemPrice),
               0,
             );
+            let currentCartListTotalPrice = temp.toFixed(2).toString;
             if (state.OrderHistoryList.length > 0) {
               state.OrderHistoryList.unshift({
                 OrderDate:
