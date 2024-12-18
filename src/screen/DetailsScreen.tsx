@@ -1,13 +1,14 @@
+import React, {useState} from 'react';
 import {
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useStore} from '../store/Store';
+
 import {
   BORDERRADIUS,
   COLORS,
@@ -17,22 +18,18 @@ import {
 } from '../theme/theme';
 import ImageBackgroundInfo from '../components/ImageBackgroundInfo';
 import PaymentFooter from '../components/PaymentFooter';
+import {useStore} from '../store/Store';
 
 const DetailsScreen = ({navigation, route}: any) => {
   const ItemOfIndex = useStore((state: any) =>
     route.params.type == 'Coffee' ? state.CoffeeList : state.BeanList,
   )[route.params.index];
-
   const addToFavoriteList = useStore((state: any) => state.addToFavoriteList);
-  const addToCart = useStore((state: any) => state.addToCart);
-  const calculateCartPrice = useStore((state: any) => state.calculateCartPrice);
   const deleteFromFavoriteList = useStore(
     (state: any) => state.deleteFromFavoriteList,
   );
-
-  const BackHandler = () => {
-    navigation.pop();
-  };
+  const addToCart = useStore((state: any) => state.addToCart);
+  const calculateCartPrice = useStore((state: any) => state.calculateCartPrice);
 
   const [price, setPrice] = useState(ItemOfIndex.prices[0]);
   const [fullDesc, setFullDesc] = useState(false);
@@ -41,7 +38,11 @@ const DetailsScreen = ({navigation, route}: any) => {
     favourite ? deleteFromFavoriteList(type, id) : addToFavoriteList(type, id);
   };
 
-  const addToCarthandle = ({
+  const BackHandler = () => {
+    navigation.pop();
+  };
+
+  const addToCarthandler = ({
     id,
     index,
     name,
@@ -86,36 +87,36 @@ const DetailsScreen = ({navigation, route}: any) => {
           BackHandler={BackHandler}
           ToggleFavourite={ToggleFavourite}
         />
+
         <View style={styles.FooterInfoArea}>
           <Text style={styles.InfoTitle}>Description</Text>
           {fullDesc ? (
-            <TouchableOpacity
+            <TouchableWithoutFeedback
               onPress={() => {
                 setFullDesc(prev => !prev);
               }}>
               <Text style={styles.DescriptionText}>
                 {ItemOfIndex.description}
               </Text>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
           ) : (
-            <TouchableOpacity
+            <TouchableWithoutFeedback
               onPress={() => {
                 setFullDesc(prev => !prev);
               }}>
               <Text numberOfLines={3} style={styles.DescriptionText}>
                 {ItemOfIndex.description}
               </Text>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
           )}
           <Text style={styles.InfoTitle}>Size</Text>
-
           <View style={styles.SizeOuterContainer}>
             {ItemOfIndex.prices.map((data: any) => (
               <TouchableOpacity
+                key={data.size}
                 onPress={() => {
                   setPrice(data);
                 }}
-                key={data.size}
                 style={[
                   styles.SizeBox,
                   {
@@ -130,13 +131,13 @@ const DetailsScreen = ({navigation, route}: any) => {
                     styles.SizeText,
                     {
                       fontSize:
-                        ItemOfIndex.type == 'bean'
+                        ItemOfIndex.type == 'Bean'
                           ? FONTSIZE.size_14
                           : FONTSIZE.size_16,
                       color:
                         data.size == price.size
                           ? COLORS.primaryOrangeHex
-                          : COLORS.primaryLightGreyHex,
+                          : COLORS.secondaryLightGreyHex,
                     },
                   ]}>
                   {data.size}
@@ -147,9 +148,9 @@ const DetailsScreen = ({navigation, route}: any) => {
         </View>
         <PaymentFooter
           price={price}
-          buttonTitle="Add To Cart"
+          buttonTitle="Add to Cart"
           buttonPressHandler={() => {
-            addToCarthandle({
+            addToCarthandler({
               id: ItemOfIndex.id,
               index: ItemOfIndex.index,
               name: ItemOfIndex.name,
@@ -157,7 +158,7 @@ const DetailsScreen = ({navigation, route}: any) => {
               imagelink_square: ItemOfIndex.imagelink_square,
               special_ingredient: ItemOfIndex.special_ingredient,
               type: ItemOfIndex.type,
-              price: ItemOfIndex.price,
+              price: price,
             });
           }}
         />
@@ -165,8 +166,6 @@ const DetailsScreen = ({navigation, route}: any) => {
     </View>
   );
 };
-
-export default DetailsScreen;
 
 const styles = StyleSheet.create({
   ScreenContainer: {
@@ -212,3 +211,5 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_medium,
   },
 });
+
+export default DetailsScreen;
